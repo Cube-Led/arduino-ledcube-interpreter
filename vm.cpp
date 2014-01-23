@@ -4,7 +4,8 @@
 #include "vm.h"
 #include "LedCubeMono.h"
 
-
+#define NB_LAYERS 4
+#define SIZE_CUBE 4
 /* Structures */
 typedef struct image
 {

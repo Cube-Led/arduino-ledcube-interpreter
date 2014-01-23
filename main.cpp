@@ -32,7 +32,7 @@ void loop()
 {
 
     lightLayer(1,1);
-    LedCubeMono cube = new LedCubeMono(4, SDI, CLK, LE);
-    //Monitor monitor = Monitor(&cube);
-    //monitor.runMonitor();
+    LedCubeMono *cube = new LedCubeMono(4, SDI, CLK, LE);
+    Monitor monitor = Monitor(*cube);
+    monitor.runMonitor();
 }

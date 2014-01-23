@@ -1,5 +1,5 @@
 #ifndef CODE_OP_h
-#define LED_CUBE_MONO_h
+#define CODE_OP_h
 
 #define OFF 0x00
 #define DELAY 0x01

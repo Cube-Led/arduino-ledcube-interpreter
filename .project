@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>ArduinoCore</project>
+		<project>Copy_of_LedCube-version_initiale_de_Jean</project>
 		<project>LedCube</project>
 	</projects>
 	<buildSpec>

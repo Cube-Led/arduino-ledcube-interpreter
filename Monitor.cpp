@@ -3,9 +3,9 @@
 #include "vm.h"
 
 
-Monitor::Monitor(LedCubeMono &c)
+Monitor::Monitor(LedCubeMono const& c)
 {
-	*cube = c;
+	cube = new LedCubeMono(c);
 }
 
 String saveInstruction[MAX_INSTRUCT];

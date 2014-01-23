@@ -15,9 +15,9 @@ using namespace std;
 class Monitor
 {
   private : int i;
-  LedCubeMono::LedCubeMono *cube;
+  	  	  	  LedCubeMono *cube;
   
-  public : Monitor(LedCubeMono &c);
+  public : Monitor(LedCubeMono const& c);
 
           /* Buffer initialization */
           void initialiseBuffer(char buffer[TAILLE_BUFFER]);
