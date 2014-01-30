@@ -1,8 +1,7 @@
 #include <string.h> 
 #include "codeOp.h"
-#include "Monitor.h"
+#include "Interpreter.h"
 #include "LedCubeMono.h"
-#include "vm.h"
 
 
 /* Constants */
@@ -30,9 +29,7 @@ void setup()
 ******************************************************************/
 void loop() 
 {
-
-    lightLayer(1,1);
     LedCubeMono *cube = new LedCubeMono(4, SDI, CLK, LE);
-    Monitor monitor = Monitor(*cube);
-    monitor.runMonitor();
+    Interpreter interpret = Interpreter(*cube);
+    interpret.interpret();
 }
