@@ -14,12 +14,6 @@
 /* Initialization */
 void setup() 
 {
-    pinMode(CLK, OUTPUT);
-    pinMode(SDI, OUTPUT);
-    pinMode(LE, OUTPUT);    
-    digitalWrite(CLK, LOW);  
-    digitalWrite(SDI, LOW);
-    digitalWrite(LE, LOW);
     Serial.begin(9600);
 }
 
@@ -29,7 +23,34 @@ void setup()
 ******************************************************************/
 void loop() 
 {
-    LedCubeMono *cube = new LedCubeMono(4, SDI, CLK, LE);
-    Interpreter interpret = Interpreter(*cube);
-    interpret.interpret();
+
+	LedCubeMonoExtended cube(4, SDI, CLK, LE);
+	uint16_t imageLayer[] =
+		  { 0b0000000000000001, 0b0000000000000000, 0b0000000000000000,
+		      0b0000000000000000 };
+	while(true)
+	{
+		//delay(200);
+		//cube.drawFrame(imageLayer);
+		//cube.testCube(250);
+		cube.permutationCirculaire();
+		cube.afficher();
+	}
+
+    /*Interpreter interpret = Interpreter(cube);
+    interpret.interpret();*/
 }
+
+int main(void)
+{
+        init();
+
+        setup();
+
+        for (;;)
+                loop();
+
+        return 0;
+}
+
+

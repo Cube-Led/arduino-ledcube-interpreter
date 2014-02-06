@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "LedCubeMono.h"
+#include "LedCubeMonoExtended.h"
 #include "codeOp.h"
 
 
@@ -15,9 +15,9 @@ using namespace std;
 class Interpreter
 {
   private : int i;
-  	  	  	  LedCubeMono *cube;
+  	  	  	  LedCubeMonoExtended *cube;
   
-  public : Interpreter(LedCubeMono const& c);
+  public : Interpreter(LedCubeMonoExtended const& c);
 
 
   	  	void initialiseSimpleBuffer(char buf[TAILLE_BUFFER]);

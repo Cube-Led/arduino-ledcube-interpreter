@@ -1,10 +1,10 @@
 #include "Interpreter.h"
-#include "LedCubeMono.h"
+#include "LedCubeMonoExtended.h"
 
 
-Interpreter::Interpreter(LedCubeMono const& c)
+Interpreter::Interpreter(LedCubeMonoExtended const& c)
 {
-	cube = new LedCubeMono(c);
+	cube = new LedCubeMonoExtended(c);
 }
 
 char gl_rangSaveInstruction = 0x0;
@@ -50,15 +50,20 @@ void Interpreter::recoitInstruction()
 /* Fonction ecoutant le lien serie et permettant l'execution des lignes de commandes transmises */
 void Interpreter::interpret()
 {
+	bufferLoop[0][0] = 0x05;
+	bufferLoop[1][0] = 0x04;
+	bufferLoop[1][1] = 0x04;
+	bufferLoop[2][0] = 0x01;
+	bufferLoop[2][1] = 0xFF;
+	bufferLoop[3][0] = 0x06;
+	gl_rangSaveInstruction = 0x03;
+
     while(true)
     {
       delay(250);
-      recoitInstruction();
-      if(gl_buffer[0] != 0x0)
-      {
-        evaluateCodeOp(gl_buffer);
+
+        evaluateCodeOp(bufferLoop[0]);
         initialiseSimpleBuffer(gl_buffer);
-      }
     }
 }
 
