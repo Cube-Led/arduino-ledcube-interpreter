@@ -50,6 +50,7 @@ void Interpreter::recoitInstruction()
 /* Fonction ecoutant le lien serie et permettant l'execution des lignes de commandes transmises */
 void Interpreter::interpret()
 {
+	 initialiseSimpleBuffer(gl_buffer);
 	bufferLoop[0][0] = 0x05;
 	bufferLoop[1][0] = 0x04;
 	bufferLoop[1][1] = 0x04;
@@ -63,7 +64,7 @@ void Interpreter::interpret()
       delay(250);
 
         evaluateCodeOp(bufferLoop[0]);
-        initialiseSimpleBuffer(gl_buffer);
+
     }
 }
 
@@ -168,7 +169,7 @@ void Interpreter::playInstrucsOneWhileSaveInstruction(char valBegin)
 void Interpreter::playInstructsLoop()
 {
   boolean continuer = true;
-  initialiseDoubleBuffer(bufferLoop);
+  //initialiseDoubleBuffer(bufferLoop);
   while(continuer)
   {
    continuer = playInstructsOneLoopSaveInstruction();

@@ -25,20 +25,16 @@ void loop()
 {
 
 	LedCubeMonoExtended cube(4, SDI, CLK, LE);
-	uint16_t imageLayer[] =
-		  { 0b0000000000000001, 0b0000000000000000, 0b0000000000000000,
-		      0b0000000000000000 };
+	Interpreter interpret = Interpreter(cube);
 	while(true)
 	{
-		//delay(200);
-		//cube.drawFrame(imageLayer);
-		//cube.testCube(250);
-		cube.permutationCirculaire();
-		cube.afficher();
+		//cube.testCube(200);
+
+
+		    interpret.interpret();
 	}
 
-    /*Interpreter interpret = Interpreter(cube);
-    interpret.interpret();*/
+
 }
 
 int main(void)
