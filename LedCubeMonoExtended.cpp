@@ -23,7 +23,7 @@ LedCubeMonoExtended::LedCubeMonoExtended(uint8_t numberOfLayers, uint8_t sdiPin,
 
 void LedCubeMonoExtended::afficher(int timeout)
 {
-	drawFrame(gl_imageLayer);
+	drawImage(gl_timeToStay, gl_imageLayer);
 }
 
 void LedCubeMonoExtended::lightAllLedOnLayer(uint16_t layer)
@@ -31,7 +31,7 @@ void LedCubeMonoExtended::lightAllLedOnLayer(uint16_t layer)
 	uint16_t allLed[] =
 	  { ZERO_FILLED_REGISTER, ZERO_FILLED_REGISTER, ZERO_FILLED_REGISTER, ZERO_FILLED_REGISTER};
 	allLed[layer-1] = ONE_FILLED_REGISTER;
-	drawImage(10000,allLed);
+	drawImage(gl_timeToStay,allLed);
 
 	allLed[layer-1] = ZERO_FILLED_REGISTER;
 }
@@ -44,8 +44,6 @@ void LedCubeMonoExtended::permutationCirculaire()
 		gl_imageLayer[(i+1)%this->numberOfLayers] = gl_imageLayer[i];
 	}
 }
-
-
 
 /* Function who test the LED */
 void LedCubeMonoExtended::testCube(int nbMillisec)
@@ -80,7 +78,8 @@ void LedCubeMonoExtended::lightOneLEDByHisNum(int layerNum, int num)
 		}
 	}
 
-	drawImage(200,gl_imageLayer);
+	drawImage(gl_timeToStay, gl_imageLayer);
+	gl_imageLayer[numberOfLayers-1] = 0;
 }
 
 void LedCubeMonoExtended::drawImage(int nbMili, uint16_t *frameMask)

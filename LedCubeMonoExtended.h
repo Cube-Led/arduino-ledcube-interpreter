@@ -14,6 +14,8 @@
 class LedCubeMonoExtended : public LedCubeMono
 {
 public :
+	uint8_t gl_timeToStay;
+
 	LedCubeMonoExtended(uint8_t numberOfLayers, uint8_t sdiPin, uint8_t clockPin, uint8_t latchPin, uint8_t frameRate);
 	LedCubeMonoExtended(uint8_t numberOfLayers, uint8_t sdiPin, uint8_t clockPin, uint8_t latchPin);
 	void lightOneLEDByHisNum(int layerNum, int num);

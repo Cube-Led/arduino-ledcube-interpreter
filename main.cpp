@@ -28,10 +28,11 @@ void loop()
 	Interpreter interpret = Interpreter(cube);
 	while(true)
 	{
-		//cube.testCube(200);
+		// cube.testCube(200);
 
 
 		    interpret.interpret();
+		    while(true);
 	}
 
 

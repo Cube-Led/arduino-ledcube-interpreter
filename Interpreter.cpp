@@ -24,7 +24,7 @@ char bufferLoop[MAX_INSTRUCT][TAILLE_BUFFER];
 void Interpreter::initialiseSimpleBuffer(char buf[TAILLE_BUFFER])
 {
   for(int i=0; i < TAILLE_BUFFER; i++)
-    buf[i] = 0x0;
+	  buf[i] = 0x0;
 }
 
 
@@ -52,20 +52,27 @@ void Interpreter::interpret()
 {
 	 initialiseSimpleBuffer(gl_buffer);
 	bufferLoop[0][0] = 0x05;
-	bufferLoop[1][0] = 0x04;
-	bufferLoop[1][1] = 0x04;
-	bufferLoop[2][0] = 0x01;
-	bufferLoop[2][1] = 0xFF;
-	bufferLoop[3][0] = 0x06;
-	gl_rangSaveInstruction = 0x03;
+	//bufferLoop[0][0] = 0x07;
+	//bufferLoop[0][1] = 0x04;
+	bufferLoop[1][0] = 0x09;
+	bufferLoop[1][1] = 0x15;
+	bufferLoop[2][0] = 0x04;
+	bufferLoop[2][1] = 0x04;
+	bufferLoop[3][0] = 0x04;
+	bufferLoop[3][1] = 0x03;
+	bufferLoop[4][0] = 0x04;
+	bufferLoop[4][1] = 0x02;
+	bufferLoop[5][0] = 0x04;
+	bufferLoop[5][1] = 0x01;
+	bufferLoop[6][0] = 0x06;
+	//bufferLoop[6][0] = 0x08;
+	gl_rangSaveInstruction = 0x00;
 
-    while(true)
+    /*while(true)
     {
-      delay(250);
-
-        evaluateCodeOp(bufferLoop[0]);
-
-    }
+      delay(250);*/
+      evaluateCodeOp(bufferLoop[0],0);
+   // }
 }
 
 
@@ -73,7 +80,7 @@ void Interpreter::interpret()
 
 /* Fonction permettant de connaitre quelle instruction a ete envoye
    En cela, la fonction renvoie un code permettant d'execution la fonction associee*/
-char Interpreter::evaluateCodeOp(char buf[])
+char Interpreter::evaluateCodeOp(char buf[], int rangInstruction)
 {
 	uint16_t layer;
 	uint16_t ledMask[2];
@@ -107,17 +114,21 @@ char Interpreter::evaluateCodeOp(char buf[])
 			playInstructsLoop();
 			return LOOP;
 		case ITERATOR :
-			Serial.println("Debut while, envoyez 6 pour arreter et commencer l'animation");
+			Serial.println("Debut iterator, envoyez 9 pour arreter et commencer l'animation");
 			gl_countIterator++;
+			gl_rangSaveInstruction = rangInstruction;
 			playInstructsWhile(buf[1]);
 			return ITERATOR;
 		case ENDLOOP :
 			Serial.println("Fin du loop");
 			return ENDLOOP;
 		case ENDITERATOR :
-			Serial.println("Fin du while");
+			Serial.println("Fin du iterator");
 			gl_countIterator--;
 			return ENDITERATOR;
+		case DELAYPICTURE :
+			cube->gl_timeToStay = buf[1];
+			return DELAYPICTURE;
 		}
  }
 
@@ -136,7 +147,7 @@ boolean Interpreter::playInstructsOneLoopSaveInstruction()
 	   for(int j =0; j<TAILLE_BUFFER; j++)
 	   	   str[j] = bufferLoop[i][j];
 	   if(str[0] != LOOP)
-		   evaluateCodeOp(bufferLoop[i]);
+		   evaluateCodeOp(bufferLoop[i],i);
 	   Serial.setTimeout(3);
 	   recoitInstruction();
 	   if(gl_buffer[0] != 0x0)return false;
@@ -159,7 +170,7 @@ void Interpreter::playInstrucsOneWhileSaveInstruction(char valBegin)
 	   for(int j =0; j<TAILLE_BUFFER; j++)
 	   	   str[j] = bufferLoop[i][j];
 	   if(str[0] != ITERATOR)
-		   evaluateCodeOp(bufferLoop[i]);
+		   evaluateCodeOp(bufferLoop[i],i);
 	   i++;
    }
 }

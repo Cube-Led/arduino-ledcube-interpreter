@@ -29,7 +29,7 @@ class Interpreter
   		void interpret();
   		/* Fonction permettant de connaitre quelle instruction a ete envoye
   		   En cela, la fonction renvoie un code permettant d'execution la fonction associee*/
-  		char evaluateCodeOp(char buf[]);
+  		char evaluateCodeOp(char buf[], int rangInstruction);
   		/* Fonction faisant un "tour du tableau", a partir de la valeur passee en parametre,
   		   Jusqu'a la premiere instruction ENDLOOP */
   		boolean playInstructsOneLoopSaveInstruction();
