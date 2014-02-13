@@ -50,12 +50,13 @@ void Interpreter::recoitInstruction()
 /* Fonction ecoutant le lien serie et permettant l'execution des lignes de commandes transmises */
 void Interpreter::interpret()
 {
-	 initialiseSimpleBuffer(gl_buffer);
-	bufferLoop[0][0] = 0x05;
-	//bufferLoop[0][0] = 0x07;
+	initialiseSimpleBuffer(gl_buffer);
+
+	/*bufferLoop[0][0] = 0x05;  // CodeOp du loop
+	//bufferLoop[0][0] = 0x07;  // CodeOp du iterator
 	//bufferLoop[0][1] = 0x04;
 	bufferLoop[1][0] = 0x09;
-	bufferLoop[1][1] = 0x15;
+	bufferLoop[1][1] = 0x64;
 	bufferLoop[2][0] = 0x04;
 	bufferLoop[2][1] = 0x04;
 	bufferLoop[3][0] = 0x04;
@@ -64,15 +65,38 @@ void Interpreter::interpret()
 	bufferLoop[4][1] = 0x02;
 	bufferLoop[5][0] = 0x04;
 	bufferLoop[5][1] = 0x01;
-	bufferLoop[6][0] = 0x06;
-	//bufferLoop[6][0] = 0x08;
-	gl_rangSaveInstruction = 0x00;
+	bufferLoop[6][0] = 0x06;  // CodeOp Fin Loop
+	//bufferLoop[6][0] = 0x08; // CodeOp Fin iterator
+	gl_rangSaveInstruction = 0x00;  // Adresse Retour du iterator
+	*/
 
-    /*while(true)
+	bufferLoop[0][0] = 0x05;
+	/*bufferLoop[1][0] = 0x03; // lightOneLEDByHisNum(3, 4)
+	bufferLoop[1][1] = 0x03;
+	bufferLoop[1][2] = 0x08;*/
+	/*bufferLoop[2][0] = 0x03; // lightOneLEDByHisNum(2,16)
+	bufferLoop[2][1] = 0x02;
+	bufferLoop[2][2] = 0x0F;*/
+	bufferLoop[1][0] = 0x04;
+	bufferLoop[1][1] = 0x04;
+	bufferLoop[2][0] = 0x02;
+	bufferLoop[2][1] = 0x01;
+	bufferLoop[2][2] = 0x88;
+	bufferLoop[3][0] = 0x03;
+	bufferLoop[3][1] = 0x03;
+	bufferLoop[3][2] = 0x0B;
+	bufferLoop[4][0] = 0x04;
+	bufferLoop[4][1] = 0x02;
+	bufferLoop[5][0] = 0x06;
+
+	evaluateCodeOp(bufferLoop[0],0);
+	/*
+    while(true)
     {
-      delay(250);*/
-      evaluateCodeOp(bufferLoop[0],0);
-   // }
+    	delay(250);
+    	evaluateCodeOp(bufferLoop[0],0);
+    }
+    */
 }
 
 
@@ -92,14 +116,13 @@ char Interpreter::evaluateCodeOp(char buf[], int rangInstruction)
 			return DELAY;
 		case LIGHTLAYER :
 			layer = buf[1];
-			ledMask[2];
 			ledMask[0] = buf[2];
 			ledMask[1] = buf[3];
 			cube->drawLayer(layer,ledMask);
 			return LIGHTLAYER;
 		case LIGHTONELEDBYHISNUM :
 			layer = buf[1];
-			led = buf[2] * 256 + buf[3];
+			led = buf[2];
 			cube->lightOneLEDByHisNum(layer, led);
 			return LIGHTONELEDBYHISNUM;
 		case LIGHTALLLEDONLAYER :
