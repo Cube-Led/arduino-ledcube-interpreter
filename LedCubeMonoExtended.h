@@ -8,8 +8,9 @@
 #ifndef LEDCUBEMONOEXTENDED_H_
 #define LEDCUBEMONOEXTENDED_H_
 
-
 #include "LedCubeMono.h"
+
+#define LAYER_MASK(l) (uint16_t) (0b0000000010000000 >> l)
 
 class LedCubeMonoExtended : public LedCubeMono
 {
@@ -22,7 +23,6 @@ public :
 	void lightAllLedOnLayer(uint16_t layer);
 	void permutationCirculaire();
 	void testCube(int nbMillisec);
-	void afficher(int timeout);
 	void drawImage(int nbMili, uint16_t *frameMask);
 
 };
