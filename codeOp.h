@@ -9,7 +9,6 @@
 #define LOOP 0x05 				/* Aucun paramètre, Lancant la procédure d'acquisition des instructions à jouer en boucle */
 #define ENDLOOP 0x06 			/* Aucun paramètre, stoppant la procédure d'acquisition précédemment lancée */
 #define ITERATOR 0x07 			/* nbTour, un paramètre permettant de passer le nombre de tour que l'on veut faire */
-#define ENDITERATOR 0x08 		/* Aucun paramètre */
-#define DELAYPICTURE 0x09 		/* Time, un paramètre, le temps en millisecondes */
+#define DELAYPICTURE 0x08 		/* Time, un paramètre, le temps en millisecondes */
 
 #endif;

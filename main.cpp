@@ -45,9 +45,8 @@ void bootloader() {
 void loop() {
 	//bootloader();
 	LedCubeMonoExtended cube(4, SDI, CLK, LE);
-	cube.testCube(100);
-	//Interpreter interpret = Interpreter(cube);
-	//interpret.interpret();
+	Interpreter interpret = Interpreter(cube);
+	interpret.interpret();
 
 	/*char value = EEPROM.read(0);
 	 bool isEmpty = (value == 0xFF);

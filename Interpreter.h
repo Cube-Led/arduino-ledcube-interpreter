@@ -14,7 +14,6 @@
 class Interpreter {
 private:
 	LedCubeMonoExtended *cube;
-	char gl_rangSaveInstruction;
 
 public:
 	Interpreter(LedCubeMonoExtended const& c);
@@ -25,7 +24,7 @@ public:
 	void interpret();
 	char evaluateCodeOp(uint16_t buf[]);
 	void playInstructsLoop();
-	void playInstructsIterator(char valFinish);
+	void playInstructsIterator(int valFinish, int nbInstruct, int address);
 };
 
 #endif;
