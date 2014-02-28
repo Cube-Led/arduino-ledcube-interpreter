@@ -7,13 +7,13 @@ Interpreter::Interpreter(LedCubeMonoExtended const& c) {
 
 
 void Interpreter::interpret() {
-	bufferInstruction[0][0] = 0x4;
+/*	bufferInstruction[0][0] = 0x4;
 		bufferInstruction[0][1] = 0x4;
 	bufferInstruction[1][0] = 0x1;
 		bufferInstruction[1][1] = 0x7D0;
 	bufferInstruction[2][0] = 0x7;
 		bufferInstruction[2][1] = 0x5;
-		bufferInstruction[2][2] = 0x6;
+		bufferInstruction[2][2] = 0xD;
 		bufferInstruction[2][3] = 0x3;
 			bufferInstruction[3][0] = 0x4;
 				bufferInstruction[3][1] = 0x3;
@@ -22,13 +22,28 @@ void Interpreter::interpret() {
 			bufferInstruction[5][0] = 0x30;
 			bufferInstruction[6][0] = 0x1;
 				bufferInstruction[6][1] = 0x1F4;
-			bufferInstruction[7][0] = 0x4;
-				bufferInstruction[7][1] = 0x1;
-			bufferInstruction[8][0] = 0x1;
-				bufferInstruction[8][1] = 0x1F4;
-	bufferInstruction[9][0] = 0x30;
-	bufferInstruction[10][0] = 0x1;
-		bufferInstruction[10][1] = 0x7D0;
+				bufferInstruction[7][0] = 0x7;
+						bufferInstruction[7][1] = 0x5;
+						bufferInstruction[7][2] = 0x6;
+						bufferInstruction[7][3] = 0x8;
+							bufferInstruction[8][0] = 0x4;
+								bufferInstruction[8][1] = 0x4;
+							bufferInstruction[9][0] = 0x1;
+								bufferInstruction[9][1] = 0x1F4;
+							bufferInstruction[10][0] = 0x30;
+							bufferInstruction[11][0] = 0x1;
+								bufferInstruction[11][1] = 0x1F4;
+							bufferInstruction[12][0] = 0x4;
+								bufferInstruction[12][1] = 0x2;
+							bufferInstruction[13][0] = 0x1;
+								bufferInstruction[13][1] = 0x1F4;
+			bufferInstruction[14][0] = 0x4;
+				bufferInstruction[14][1] = 0x1;
+			bufferInstruction[15][0] = 0x1;
+				bufferInstruction[15][1] = 0x1F4;
+	bufferInstruction[16][0] = 0x30;
+	bufferInstruction[17][0] = 0x1;
+		bufferInstruction[17][1] = 0x7D0; */
 
 
 	int i =0;
@@ -40,17 +55,28 @@ void Interpreter::interpret() {
 
 char Interpreter::evaluateCodeOp(uint16_t buf[]) {
 	uint16_t layer;
-	uint16_t ledMask[2];
-	int led;
+	uint16_t ledMask[4];
+	uint16_t led;
 
+	long milli;
+	int taille_mask;
 	switch (buf[0]) {
 		case DELAY:
-			delay(buf[1]);
+			milli=0;
+			for(int i = 2; i <= (1 + buf[1]) ; i++)
+			{
+				milli = buf[i] * bit(16 * (i-2)) + milli;
+			}
+			delay(milli);
 			return DELAY;
 		case LIGHTLAYER:
+			layer = buf[1] >> 8;
+			taille_mask = buf[1] && 0x00FF;
 			layer = buf[1];
-			ledMask[0] = buf[2];
-			ledMask[1] = buf[3];
+			for(int i = 2; i <= (1 + taille_mask) ; i++)
+			{
+				ledMask[i-2] = buf[i];
+			}
 			cube->drawLayer(LAYER_MASK(layer - 1), (uint16_t *) ledMask);
 			return LIGHTLAYER;
 		case LIGHTONELEDBYHISNUM:
@@ -74,7 +100,12 @@ char Interpreter::evaluateCodeOp(uint16_t buf[]) {
 		case ENDLOOP:
 			return ENDLOOP;
 		case DELAYPICTURE:
-			cube->gl_timeToStay = buf[1];
+			long milli = 0;
+			for(int i = 2; i <= (1 + buf[1]) ; i++)
+			{
+				milli = buf[i] * bit(16 * (i-2)) + milli;
+			}
+			cube->gl_timeToStay = milli;
 			return DELAYPICTURE;
 	}
 }

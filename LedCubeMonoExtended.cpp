@@ -31,8 +31,8 @@ void LedCubeMonoExtended::testCube(int nbMillisec) {
 	}
 }
 
-void LedCubeMonoExtended::drawImage(int nbMili, uint16_t *frameMask) {
-	long int prec = millis();
+void LedCubeMonoExtended::drawImage(unsigned long nbMili, uint16_t *frameMask) {
+	unsigned long prec = millis();
 	while (millis() < prec + nbMili) {
 		drawFrame(frameMask);
 		off();

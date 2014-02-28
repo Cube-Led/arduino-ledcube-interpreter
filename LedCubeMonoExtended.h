@@ -15,7 +15,7 @@
 class LedCubeMonoExtended : public LedCubeMono
 {
 public :
-	uint8_t gl_timeToStay;
+	unsigned long gl_timeToStay;
 
 	LedCubeMonoExtended(uint8_t numberOfLayers, uint8_t sdiPin, uint8_t clockPin, uint8_t latchPin, uint8_t frameRate);
 	LedCubeMonoExtended(uint8_t numberOfLayers, uint8_t sdiPin, uint8_t clockPin, uint8_t latchPin);
@@ -23,7 +23,7 @@ public :
 	void lightAllLedOnLayer(uint16_t layer);
 	void permutationCirculaire();
 	void testCube(int nbMillisec);
-	void drawImage(int nbMili, uint16_t *frameMask);
+	void drawImage(unsigned long nbMili, uint16_t *frameMask);
 
 };
 

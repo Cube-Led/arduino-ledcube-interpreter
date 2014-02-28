@@ -3,6 +3,7 @@
 #include "codeOp.h"
 #include "Interpreter.h"
 #include "LedCubeMono.h"
+#include "BootLoader.h"
 
 /* Constants */
 #define CLK  5 // Yellow CLOCK
@@ -20,33 +21,16 @@ void setup() {
  ****************************MAIN PROGRAM***************************
  ******************************************************************/
 int count;
-void bootloader() {
-	count = 0;
-	char value = EEPROM.read(0);
-	bool isEmpty = (value == 0xFF);
-	/*if(isEmpty)
-	 {*/
-	Serial.setTimeout(30000);
-	byte b[750];
 
-	while (Serial.available() > 0) {
-		b[count] = Serial.read();
-		count++;
-	}
-	for (int i = 0; i < count; i++) {
-		EEPROM.write(i, b[i]);
-	}
-	/*}
-	 else{
-	 Serial.println("eeprom non vide");
-	 }*/
-}
 
 void loop() {
-	//bootloader();
 	LedCubeMonoExtended cube(4, SDI, CLK, LE);
 	Interpreter interpret = Interpreter(cube);
+	mainBootLoader(interpret.bufferInstruction);
 	interpret.interpret();
+	//bootloader();
+
+/*	if(!Serial.available()) */
 
 	/*char value = EEPROM.read(0);
 	 bool isEmpty = (value == 0xFF);

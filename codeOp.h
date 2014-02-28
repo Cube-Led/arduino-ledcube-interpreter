@@ -7,8 +7,8 @@
 #define LIGHTONELEDBYHISNUM 0x03 /* Layer numLed, 	Deux paramètres correspondant au numéro de la couche à allumer et au numéro de la led que nous voullons allumer */
 #define LIGHTALLLEDONLAYER 0x04 /* Layer, 			un paramètre correspondant au numéro de la couche à allumer */
 #define LOOP 0x05 				/* Aucun paramètre, Lancant la procédure d'acquisition des instructions à jouer en boucle */
-#define ENDLOOP 0x06 			/* Aucun paramètre, stoppant la procédure d'acquisition précédemment lancée */
-#define ITERATOR 0x07 			/* nbTour, un paramètre permettant de passer le nombre de tour que l'on veut faire */
+#define ENDLOOP 0x06 			/* Un paramètre, adresse de la première instruction, stoppant la procédure d'acquisition précédemment lancée */
+#define ITERATOR 0x07 			/* nbTour,nbInstructs,adrFirst trois paramètres pour le nombre de tours, le nombre d'instructions et l'adresse de la premiere instruction de la boucle */
 #define DELAYPICTURE 0x08 		/* Time, un paramètre, le temps en millisecondes */
 
 #endif;
