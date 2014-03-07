@@ -11,14 +11,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <EEPROM.h>
-#define TAILLE_BUFFER 6
-#define MAX_INSTRUCT 42
+#define TAILLE 400
 #define CARACTERE_VIDE_EEPROM 0xFF
 
 void transfer();
-void initialize(uint16_t buf[MAX_INSTRUCT][TAILLE_BUFFER]);
-void mainBootLoader(uint16_t buf[MAX_INSTRUCT][TAILLE_BUFFER]);
-void defaultAnimation(uint16_t buf[MAX_INSTRUCT][TAILLE_BUFFER]);
-void loadEEPROMDataInBuffer(uint16_t buf[MAX_INSTRUCT][TAILLE_BUFFER]);
+void initialize(uint16_t buf[TAILLE]);
+void mainBootLoader(uint16_t buf[TAILLE]);
+void defaultAnimation(uint16_t buf[TAILLE]);
+void loadEEPROMDataInBuffer(uint16_t buf[TAILLE]);
 void transfer();
 #endif /* BOOTLOADER_H_ */
