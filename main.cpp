@@ -27,7 +27,6 @@ void loop() {
 	LedCubeMonoExtended cube(4, SDI, CLK, LE);
 	Interpreter interpret = Interpreter(cube);
 	mainBootLoader(interpret.bufferInstruction);
-	cube.off();
 	interpret.interpret();
 	//bootloader();
 

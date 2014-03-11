@@ -57,24 +57,26 @@ void initialize(uint16_t buf[TAILLE]) {
 }
 
 void transfer() {
-	byte incomingByte = 0;
-	int i = 0;
+	int incomingByte = 0;
+	int i = 1;
 	incomingByte = Serial.read();
 	while (incomingByte != 0x02 || incomingByte == -1) {
 		incomingByte = Serial.read();
 	}
 	Serial.write(0x5);
-
 	incomingByte = Serial.read();
-	while (i < 2*TAILLE) {
-		if (incomingByte != -1) {
+	while (i < 2*TAILLE) { //2*TAILLE car 1 uint16-t = 2 octets
+		if (Serial.available()>0) {
+			incomingByte = Serial.read();
 			EEPROM.write(i, incomingByte);
 			i++;
 		}
-		incomingByte = Serial.read();
 	}
 	Serial.write(0x12);
 	transferReussit = true;
+	Serial.write(0x10);
+	for(int k=0;k<=50;k++)
+		Serial.write(EEPROM.read(k));
 }
 
 void defaultAnimation(uint16_t buf[TAILLE]) {
