@@ -63,6 +63,7 @@ void transfer() {
 	while (incomingByte != 0x02 || incomingByte == -1) {
 		incomingByte = Serial.read();
 	}
+
 	Serial.write(0x5);
 
 	incomingByte = Serial.read();
