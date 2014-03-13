@@ -14,10 +14,9 @@
 #define TAILLE 400
 #define CARACTERE_VIDE_EEPROM 0xFF
 
-void transfer();
 void initialize(uint16_t buf[TAILLE]);
 void mainBootLoader(uint16_t buf[TAILLE]);
 void defaultAnimation(uint16_t buf[TAILLE]);
 void loadEEPROMDataInBuffer(uint16_t buf[TAILLE]);
-void transfer();
+bool transfer();
 #endif /* BOOTLOADER_H_ */

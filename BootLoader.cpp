@@ -8,25 +8,31 @@
 #include <BootLoader.h>
 
 bool transferReussit = false;
+int len;
+
 void mainBootLoader(uint16_t buf[TAILLE]) {
-
 	initialize(buf);
-
-		//Serial.println("lien serie ok");
-		transfer();
-		loadEEPROMDataInBuffer(buf);
+	len =0;
+	transferReussit = transfer();
+	if (transferReussit)
+		Serial.write(0x31);
+	else
+		Serial.write(0x30);
 
 	if(!transferReussit){
-		Serial.println("on va ecrire");
 		if(EEPROM.read(0) != CARACTERE_VIDE_EEPROM)
 		{
-			Serial.println("eeprom non vide");
 			loadEEPROMDataInBuffer(buf);
 		}
 		else
 		{
+			Serial.write(128);
 			defaultAnimation(buf);
 		}
+	}
+	else
+	{
+		loadEEPROMDataInBuffer(buf);
 	}
 }
 
@@ -36,15 +42,30 @@ void loadEEPROMDataInBuffer(uint16_t buf[TAILLE])
 	byte premierOctetLu = 0;
 	byte deuxiemeOctetLu = 0;
 	int count = 0;
+	int numberOfFF = 0;
 	int i=0;
-	while(count < TAILLE && (premierOctetLu != 0xFF && deuxiemeOctetLu != 0xFF))
+	if (len == 0){
+		len = TAILLE*2; //Si on a rien recu, on met len à la bonne taille pour ne pas bloquer la boucle suivante
+	}
+	while((count < TAILLE) && (count < len/2))
 	{
 		premierOctetLu = EEPROM.read(i);
 		deuxiemeOctetLu = EEPROM.read(i+1);
 		buf[count] = premierOctetLu;
-		buf[count] = (buf[count] <<8) & deuxiemeOctetLu;
+		buf[count] = (buf[count] <<8) | deuxiemeOctetLu;
 		i=i+2;
+		Serial.write(buf[count]);
+		if (buf[count] == 0xFFFF)
+			numberOfFF +=2;
+		else {
+			numberOfFF = 0;
+		}
 		count++;
+	}
+	if (numberOfFF > 8){
+		for(int k = 0; k < 4;  k++){
+			buf[count - k] = 0x0;
+		}
 	}
 }
 
@@ -56,27 +77,29 @@ void initialize(uint16_t buf[TAILLE]) {
 	}
 }
 
-void transfer() {
+bool transfer() {
 	byte incomingByte = 0;
 	int i = 0;
-	int len = 0;
-	while (1)
-	{
+	len = 0;
+	unsigned long prec = millis();
 
-		while (Serial.available() == 0);
+	while (1){
+		while (Serial.available() == 0 )
+		{
+			if(millis() > prec + 5000)
+				{return false;}
+		}
 	    incomingByte = Serial.read();
 	    if (incomingByte == 0x02) break;
 	}
 
 	Serial.write(0x05);
 
-	while (1)
-		{
-
-			while (Serial.available() == 0);
-		    len = Serial.read();
-		    if (len > 0) break;
-		}
+	while (1){
+		while (Serial.available() == 0);
+		len = Serial.read();
+		if (len > 0) break;
+	}
 	Serial.write(len);
 
 	for (i = 0;i<len;i++)
@@ -87,16 +110,15 @@ void transfer() {
 		Serial.write(incomingByte);
 		delay(5);
 	}
-	EEPROM.write(i, 0x34);
-	Serial.write(0x34);
 	Serial.write(0x12);
 	Serial.write(0x10);
-	delay(2000);
+	/*delay(2000);
 	for (i = 0;i<=len;i++)
 	{
 		incomingByte = EEPROM.read(i);
 		Serial.write(incomingByte);
-	}
+	}*/
+	return true;
 }
 
 void defaultAnimation(uint16_t buf[TAILLE]) {
