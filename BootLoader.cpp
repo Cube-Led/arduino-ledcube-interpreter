@@ -57,27 +57,46 @@ void initialize(uint16_t buf[TAILLE]) {
 }
 
 void transfer() {
-	int incomingByte = 0;
-	int i = 1;
-	incomingByte = Serial.read();
-	while (incomingByte != 0x02 || incomingByte == -1) {
-		incomingByte = Serial.read();
+	byte incomingByte = 0;
+	int i = 0;
+	int len = 0;
+	while (1)
+	{
+
+		while (Serial.available() == 0);
+	    incomingByte = Serial.read();
+	    if (incomingByte == 0x02) break;
 	}
 
-	Serial.write(0x5);
-	incomingByte = Serial.read();
-	while (i < 2*TAILLE) { //2*TAILLE car 1 uint16-t = 2 octets
-		if (Serial.available()>0) {
-			incomingByte = Serial.read();
-			EEPROM.write(i, incomingByte);
-			i++;
+	Serial.write(0x05);
+
+	while (1)
+		{
+
+			while (Serial.available() == 0);
+		    len = Serial.read();
+		    if (len > 0) break;
 		}
+	Serial.write(len);
+
+	for (i = 0;i<len;i++)
+	{
+		while (Serial.available() == 0);
+		incomingByte = Serial.read();
+		EEPROM.write(i, incomingByte);
+		Serial.write(incomingByte);
+		delay(5);
 	}
+	EEPROM.write(i, 0x34);
+	Serial.write(0x34);
 	Serial.write(0x12);
-	transferReussit = true;
 	Serial.write(0x10);
-	for(int k=0;k<=50;k++)
-		Serial.write(EEPROM.read(k));
+	delay(2000);
+	for (i = 0;i<=len;i++)
+	{
+		incomingByte = EEPROM.read(i);
+		Serial.write(incomingByte);
+	}
 }
 
 void defaultAnimation(uint16_t buf[TAILLE]) {
