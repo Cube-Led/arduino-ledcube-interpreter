@@ -8,6 +8,5 @@
 #define LIGHTALLLEDONLAYER 0x04
 #define LOOP 0x05
 #define ITERATOR 0x06
-#define DELAYPICTURE 0x08
 
 #endif;

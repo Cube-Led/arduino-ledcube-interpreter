@@ -77,16 +77,6 @@ char Interpreter::evaluateCodeOp(int address, uint16_t taille) {
 	case ITERATOR:
 		playInstructsIterator(bufferInstruction[address + 1], bufferInstruction[address + 2], bufferInstruction[address + 3]);
 		return ITERATOR;
-	/*case ENDLOOP:
-		return ENDLOOP;
-		case DELAYPICTURE:
-		 long milli = 0;
-		 for(int i = 2; i <= (1 + buf[1]) ; i++)
-		 {
-		 milli = buf[i] * bit(16 * (i-2)) + milli;
-		 }
-		 cube->gl_timeToStay = milli;
-		 return DELAYPICTURE;*/
 	}
 }
 
