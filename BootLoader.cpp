@@ -78,7 +78,7 @@ void initialize(uint16_t buf[TAILLE]) {
 }
 
 bool transfer() {
-	byte incomingByte = 0;
+	int incomingByte = 0;
 	int i = 0;
 	len = 0;
 	unsigned long prec = millis();
