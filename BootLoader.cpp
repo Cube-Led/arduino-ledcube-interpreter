@@ -78,7 +78,7 @@ void initialize(uint16_t buf[TAILLE]) {
 }
 
 bool transfer() {
-	int incomingByte = 0;
+	byte incomingByte = 0;
 	int i = 0;
 	len = 0;
 	unsigned long prec = millis();
@@ -94,12 +94,17 @@ bool transfer() {
 	}
 
 	Serial.write(0x05);
-
+	int count =0;
 	while (1){
 		while (Serial.available() == 0);
-		len = Serial.read();
-		if (len > 0) break;
+		len = (len << 8) + Serial.read();
+
+		Serial.write(len>>8);
+		Serial.write(len);
+		count++;
+		if (count == 4) break;
 	}
+	Serial.write(len>>8);
 	Serial.write(len);
 
 	for (i = 0;i<len;i++)

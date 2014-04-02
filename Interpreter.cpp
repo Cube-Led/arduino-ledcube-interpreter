@@ -7,25 +7,6 @@ Interpreter::Interpreter(LedCubeMonoExtended const& c) {
 
 void Interpreter::interpret() {
 
-	/*bufferInstruction[0][0] = 0x5;
-
-	 bufferInstruction[1][0] = 0x4;
-	 bufferInstruction[1][1] = 0x1;
-
-	 bufferInstruction[2][0] = 0x1;
-	 bufferInstruction[2][1] = 0x1;
-	 bufferInstruction[2][2] = 0x64;
-
-	 bufferInstruction[3][0] = 0x4;
-	 bufferInstruction[3][1] = 0x4;
-
-	 bufferInstruction[4][0] = 0x1;
-	 bufferInstruction[4][1] = 0x1;
-	 bufferInstruction[4][2] = 0x64;
-
-	 bufferInstruction[5][0] = 0x6;
-	 bufferInstruction[5][1] = 0x1;*/
-
 	int i = 0;
 	while (true) {
 		evaluateCodeOp(i + 1, bufferInstruction[i]);
@@ -35,7 +16,10 @@ void Interpreter::interpret() {
 
 char Interpreter::evaluateCodeOp(int address, uint16_t taille) {
 	uint16_t layer;
-	uint16_t ledMask[10];
+	uint16_t ledMask[4];
+	for(int tab =0; tab < 4; tab++)
+		ledMask[tab]=0x0;
+
 	uint16_t led;
 
 	long milli;
